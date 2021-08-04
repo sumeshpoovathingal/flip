@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<title>flipzone</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+    <a href="/" class="w3-bar-item w3-button"><b>Home</b>FlipZone</a>
+    <!-- Float links to the right. Hide them on small screens -->
+    <div class="w3-right w3-hide-small">
+      {% if user.is_authenticated %}
+      <center><h6 style="color:green">Hai {{user.username}}</h6></center>
+      <a href="account/logout">Logout</a>
+      {% else %}
+      <a href="{% url 'account:reg' %}" class="w3-bar-item w3-button">Register</a>
+      <a href="{% url 'account:login' %}" >Login</a>
+      {% endif %}
+      <a href="{% url 'cart:cartDetails' %}" class="w3-bar-item w3-button">Cart</a>
+  <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    categories
+  </a>
+
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" href="/" >All products</a>
+    {% for i in ct %}
+          <a class="dropdown-item" href="{{i.get_url}}" >{{i.name}}</a>
+    {% endfor %}
+  </div>
+
+    </div>
+  </div>
+</div>
+<!-- Header -->
+<header class="w3-display-container w3-content w3-wide" style="max-width:1500px;" id="home">
+  <img class="w3-image" src="{% static 'img/fashion-online-shopping-sites.jpg' %}" alt="Architecture" width="1500" height="800">
+  <div class="w3-display-middle w3-margin-top w3-center">
+    <h1 class="w3-xxlarge w3-text-white"><span class="w3-padding w3-black w3-opacity-min"><b><i>FLIP</i></b></span> <span class="w3-hide-small w3-text-light-grey " style="color:red;"><b>Zone</b></span></h1>
+    <form class="example" action="{% url 'flipapp:search' %}" action="get">
+  <input type="text" placeholder="Search products.." name="q">
+  <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+  </div>
+</header>
+
+<!-- Page content -->
+<div class="w3-content " style="max-width:1000px">
+  <!-- About Section -->
+  <div class="w3-container w3-padding-32" id="about">
+    <h3 class="w3-border-bottom w3-border-light-grey w3-padding-16" style="color:red;"><b><center><marquee><i>Tell a Story with Signature Style, Humour and Gimmicks</i></marquee></center></b></h3>
+  </div>
+  <div class="w3-row-padding ">
+    {% for i in pg.object_list %}
+    <div class="w3-col l3 m6 w3-margin-bottom">
+      <a href="{{i.get_url}}"><img src="{{i.img.url}}" alt="image" style="height:200px;width:200px;"></a>
+      <h3>{{i.name}}</h3>
+      <p class="w3-opacity">₹ {{i.price}}</p>
+      <p>{{i.desc |truncatewords:3}}</p>
+
+    </div>
+     {% endfor %}
+
+</div>
+
+
+<!-- Footer -->
+<footer class="w3-center w3-black w3-padding-16">
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">www.cart.com</a></p>
+</footer>
+   <center>
+						{% for p in pg.paginator.page_range %}
+						<a href="?page={{p}}" class="btn btn-light btn-sm {% if pg.number == p %} active {% endif %}">{{p}}</a>
+						{% endfor %}
+					</center>
+
+
+</body>
+</html>

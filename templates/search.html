@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<style>
+  .cards {
+    display: flex;
+
+    /* Put a card in the next row when previous cards take all width */
+    flex-wrap: wrap;
+
+    margin-left: -8px;
+    margin-right: -8px;
+}
+
+.cards__item {
+    /* There will be 4 cards per row */
+    flex-basis: 25%;
+
+    padding-left: 8px;
+    padding-right: 8px;
+}
+</style>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</nav>
+<div>
+<center><h2 style="color:red;">Search Results</h2></center><br><br>
+      <div class="cards">
+          {% for i in pr %}
+    <!-- A card with given width -->
+    <div class="cards__item">
+               <a href="{{i.get_url}}"><img src="{{i.img.url}}" alt="image" style="height:200px;width:200px;"></a>
+              <h3>{{i.name}}</h3>
+       <p>₹ {{i.price}}</p>
+      <p>{{i.desc |truncatewords:3 }}</p>
+    </div>
+         {% endfor %}
+</div>
+</body>
+</html>

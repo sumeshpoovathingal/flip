@@ -1,0 +1,139 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+    <style>
+        .cart-page{
+        margin: 10px auto;
+        }
+        table{
+        border:1px;
+        margin-left:auto;
+        margin-right:auto;
+        width: 50%;
+        border-collapse: collapse
+        }
+        .cart-info{
+        display:flex;
+        flex-wrap: wrap;
+        }
+        th{
+        text-align: left;
+        padding: 5px;
+        color: #fff;
+        background: #ff523b;
+        font-weight: normal;
+        }
+        td{
+        padding: 10px 3px;
+        }
+        td input{
+        height:30px;
+        width:40px;
+        padding:5px;
+        }
+        td a{
+        color:#ff523b;
+        font-size:12px;
+        }
+        td img{
+        width:80px;
+        height:80px;
+        margin-right: 10px;
+        }
+        .total-price{
+        display:flex;
+        justify-content:flex-end;
+        }
+        .total-price table{
+        border-top:3px solid #ff573b;
+        width:100%;
+        max-width:370px;
+        }
+        td:last-child{
+        text-align: right;
+        color:green;
+        }
+        th:last-child{
+        text-align: right;
+        }
+        h3
+        {
+        text-align: center;
+        color:red;
+        font-family:Courier New;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<!--  <a class="navbar-brand" href="#">Navbar</a>-->
+<!--  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--    <span class="navbar-toggler-icon"></span>-->
+<!--  </button>-->
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/"><h1><i class="fa fa-home"></h1></i><span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+<body>
+<div class="small-container cart-page">
+    <h3 style="color:red;">Your Cart &nbsp;<i class="fa fa-shopping-cart" style="font-size:30px;color:black;">({{itc}})</i></h3>
+    <table>
+        <tr>
+            <th>Product</th>
+             <th>Quantity</th>
+             <th>Subtotal</th>
+        </tr>
+        <div>
+            {% for i in ci %}
+        <tr>
+
+            <td><div class="cart-info">
+                <a href="{{i.prodt.get_url}}"><img src="{{i.prodt.img.url}}">
+            <div>
+            <b><h6 style="color:green">{{i.prodt.name}}</h6></b> </a>
+             <small>₹{{i.prodt.price}}</small><br>
+             <small>Quantity:{{i.quan}}</small><br>
+             <a href="{% url 'cart:remove' i.prodt.id %}"><h6><i class="fa fa-trash"></i></h6>
+</a>
+            </div>
+            </div>
+            </td>
+            <td><a href="{% url 'cart:addcart' i.prodt.id %}" class="btn btn-info btn-sm">
+                <span class="glyphicon glyphicon-plus"></span><b>+</b>
+        </a>&nbsp;&nbsp;{{i.quan}}&nbsp;&nbsp;<a href="{% url 'cart:cart_decrement' i.prodt.id %}" class="btn btn-info btn-sm">
+          <span class="glyphicon glyphicon-plus"></span><b>-</b>
+        </a></td>
+            <td>₹ {{i.total}} </td>
+        </tr>
+            {% endfor %}
+
+    </table><br>
+    <div class="total price">
+        <table>
+             <tr>
+                <td style="color:red">Total</td>
+                 <td style="background-color:Gainsboro;color:red;">₹ {{t}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+</body>
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2021 Copyright:
+    <a href="https://mdbootstrap.com/"> shopcart.com</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+</html>
